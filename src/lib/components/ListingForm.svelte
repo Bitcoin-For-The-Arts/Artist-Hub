@@ -8,6 +8,8 @@
 
   type Mode = 'service' | 'classified';
   let mode: Mode = 'service';
+  let isGig = false;
+  let isCollab = false;
 
   let title = '';
   let summary = '';
@@ -50,7 +52,10 @@
     busy = true;
     try {
       const images = csvList(imagesCsv);
-      const tags = csvList(tagsCsv).map((t) => t.replace(/^#/, ''));
+      let tags = csvList(tagsCsv).map((t) => t.replace(/^#/, ''));
+
+      if (isGig) tags = ['Gig', ...tags.filter((t) => t.toLowerCase() !== 'gig')];
+      if (isCollab) tags = ['Collab', ...tags.filter((t) => t.toLowerCase() !== 'collab')];
 
       if (mode === 'service') {
         const stallId = deriveStallId($pubkey);
@@ -118,6 +123,17 @@
     </button>
   </div>
 
+  <div class="row" style="margin-top: 0.75rem;">
+    <label class="pill" style="cursor: pointer;">
+      <input type="checkbox" bind:checked={isGig} />
+      Tag as Gig / Commission
+    </label>
+    <label class="pill" style="cursor: pointer;">
+      <input type="checkbox" bind:checked={isCollab} />
+      Tag as Collaboration
+    </label>
+  </div>
+
   <div class="grid cols-2" style="margin-top: 0.9rem;">
     <div>
       <div class="muted" style="margin-bottom:0.35rem;">Title</div>
@@ -132,6 +148,7 @@
         <option value="Film">Film</option>
         <option value="Writing">Writing</option>
         <option value="Design">Design</option>
+        <option value="Performance">Performance</option>
         <option value="Workshops">Workshops</option>
         <option value="Collaboration">Collaboration</option>
       </select>
