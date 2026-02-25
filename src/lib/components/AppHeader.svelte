@@ -30,21 +30,14 @@
   <div class="container inner">
     <div class="brand">
       <a class="logo" href={`${base}/`} aria-label="Bitcoin for the Arts — Artist Hub">
-        <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect width="48" height="48" rx="14" fill="url(#logo-grad)" />
-          <text x="50%" y="54%" dominant-baseline="central" text-anchor="middle"
-            font-size="26" font-weight="900" fill="#0b0b0f" font-family="system-ui, -apple-system, sans-serif">B</text>
-          <defs>
-            <linearGradient id="logo-grad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#f7931a" />
-              <stop offset="100%" stop-color="#f6c453" />
-            </linearGradient>
-          </defs>
-        </svg>
-        <span class="logo-text">
-          <span class="logo-title">Bitcoin for the Arts</span>
-          <span class="logo-sub">Artist Hub</span>
-        </span>
+        <img
+          class="logo-img"
+          src={`${base}/bfta-logo.png`}
+          alt="Bitcoin for the Arts, Inc."
+          width="44"
+          height="44"
+        />
+        <span class="logo-title">Artist Hub</span>
       </a>
       <span class="muted status">
         <span class="status-dot" class:connected={$ndkStatus === 'connected'}></span>
@@ -125,36 +118,27 @@
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.6rem;
     text-decoration: none;
   }
   .logo:hover {
     text-decoration: none;
     opacity: 0.92;
   }
-  .logo-icon {
+  .logo-img {
     width: 44px;
     height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    object-fit: cover;
     flex-shrink: 0;
   }
-  .logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.15;
-    min-width: 0;
-  }
   .logo-title {
-    font-size: 1.05rem;
+    font-size: 1.12rem;
     font-weight: 900;
     color: var(--text);
     white-space: nowrap;
     letter-spacing: -0.2px;
-  }
-  .logo-sub {
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 1.2px;
     text-transform: uppercase;
   }
   .status {
@@ -240,9 +224,9 @@
     .logo-title {
       font-size: 0.92rem;
     }
-    .logo-icon {
-      width: 38px;
-      height: 38px;
+    .logo-img {
+      width: 36px;
+      height: 36px;
     }
     .mono {
       display: none;
