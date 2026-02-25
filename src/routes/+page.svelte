@@ -12,20 +12,16 @@
 
 <div class="hero">
   <div class="hero-logo">
-    <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="hero-icon">
-      <rect width="64" height="64" rx="18" fill="url(#hero-grad)" />
-      <text x="50%" y="54%" dominant-baseline="central" text-anchor="middle"
-        font-size="36" font-weight="900" fill="#0b0b0f" font-family="system-ui, -apple-system, sans-serif">B</text>
-      <defs>
-        <linearGradient id="hero-grad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#f7931a" />
-          <stop offset="100%" stop-color="#f6c453" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <img
+      class="hero-icon"
+      src={`${base}/bfta-logo.png`}
+      alt="Bitcoin for the Arts, Inc."
+      width="72"
+      height="72"
+    />
     <div class="hero-titles">
-      <h1 class="hero-title">Bitcoin for the Arts</h1>
-      <div class="hero-subtitle">Artist Hub</div>
+      <h1 class="hero-title">Artist Hub</h1>
+      <div class="hero-subtitle">Bitcoin for the Arts, Inc.</div>
     </div>
   </div>
 
@@ -98,27 +94,30 @@
     margin-bottom: 1.2rem;
   }
   .hero-icon {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    object-fit: cover;
     flex-shrink: 0;
   }
   .hero-titles {
     text-align: left;
   }
   .hero-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: 950;
     margin: 0;
     line-height: 1.1;
     letter-spacing: -0.5px;
+    text-transform: uppercase;
   }
   .hero-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    margin-top: 0.15rem;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-top: 0.2rem;
   }
   .hero-desc {
     max-width: 640px;
@@ -194,8 +193,11 @@
       grid-template-columns: 1fr;
     }
     .hero-icon {
-      width: 52px;
-      height: 52px;
+      width: 56px;
+      height: 56px;
+    }
+    .hero-title {
+      font-size: 1.6rem;
     }
   }
 </style>
