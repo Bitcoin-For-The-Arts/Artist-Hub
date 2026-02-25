@@ -11,13 +11,23 @@ export const NOSTR_KINDS = {
   metadata: 0,
   note: 1,
   dm: 4,
+  reaction: 7,
 
   nip15_stall: 30017,
   nip15_product: 30018,
 
   nip23_longform: 30023,
 
+  nip25_reaction: 7,
+
+  nip28_channel_create: 40,
+  nip28_channel_metadata: 41,
+  nip28_channel_message: 42,
+
   nip51_curated_set: 30004,
+
+  nip53_live_event: 30311,
+  nip53_live_chat: 1311,
 
   nip99_classified: 30402,
   nip99_draft: 30403,
