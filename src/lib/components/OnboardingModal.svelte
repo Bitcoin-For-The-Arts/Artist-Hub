@@ -11,6 +11,7 @@
   let generatedNpub = '';
   let generatedNsec = '';
   let keysSaved = false;
+  let nsecRevealed = false;
   let error: string | null = null;
 
   async function generateKeys() {
@@ -102,7 +103,14 @@
       <div class="key-block">
         <div class="key-label muted">Private Key (nsec) — keep secret</div>
         <div class="key-value card" style="border-color: rgba(251,113,133,0.2);">
-          <code class="nsec">{generatedNsec}</code>
+          {#if nsecRevealed}
+            <code class="nsec">{generatedNsec}</code>
+          {:else}
+            <code class="nsec">{'•'.repeat(32)}...</code>
+          {/if}
+          <button class="btn" style="font-size: 0.8rem; padding: 0.3rem 0.5rem;" on:click={() => (nsecRevealed = !nsecRevealed)}>
+            {nsecRevealed ? 'Hide' : 'Reveal'}
+          </button>
           <button class="btn" style="font-size: 0.8rem; padding: 0.3rem 0.5rem;" on:click={() => copyToClipboard(generatedNsec)}>Copy</button>
         </div>
       </div>

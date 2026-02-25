@@ -314,12 +314,18 @@
                 </a>
               </div>
             {:else if selectedEvent.streaming.includes('youtube') || selectedEvent.streaming.includes('youtu.be')}
+              <div class="muted" style="font-size: 0.78rem; margin-bottom: 0.4rem;">
+                External embed — subject to the host platform's privacy policy.
+              </div>
               <iframe
                 src={selectedEvent.streaming.replace('watch?v=', 'embed/')}
                 title="Live Stream"
                 width="100%"
                 height="320"
                 style="border: none; border-radius: 12px;"
+                sandbox="allow-scripts allow-same-origin allow-presentation"
+                referrerpolicy="no-referrer"
+                loading="lazy"
                 allowfullscreen
               ></iframe>
             {:else}
