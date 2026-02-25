@@ -4,28 +4,52 @@
   import { connectNostr, disconnectNostr, isAuthed, npub, authError } from '$lib/stores/auth';
   import { ndkStatus } from '$lib/stores/ndk';
 
+  let mobileMenuOpen = false;
+
   const nav = [
-    { href: '/discover', label: 'Discover' },
-    { href: '/featured', label: 'Featured' },
-    { href: '/create', label: 'Create' },
-    { href: '/messages', label: 'Messages' },
-    { href: '/me', label: 'Me' },
+    { href: '/discover', label: 'Discover', icon: '🔍' },
+    { href: '/live', label: 'Live', icon: '📡' },
+    { href: '/artstack', label: 'ArtStack', icon: '💬' },
+    { href: '/featured', label: 'Featured', icon: '⭐' },
+    { href: '/create', label: 'Create', icon: '✨' },
+    { href: '/messages', label: 'Messages', icon: '✉️' },
+    { href: '/me', label: 'Me', icon: '👤' },
   ];
 
   function isActive(pathname: string, href: string): boolean {
     const full = `${base}${href}`;
     return pathname === full || pathname.startsWith(`${full}/`);
   }
+
+  function toggleMobile() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
 </script>
 
 <header class="header">
   <div class="container inner">
     <div class="brand">
-      <a class="logo" href={`${base}/discover`} aria-label="Artist Hub home">
-        <span class="mark">B</span>
-        <span>Artist Hub</span>
+      <a class="logo" href={`${base}/`} aria-label="Bitcoin for the Arts — Artist Hub">
+        <svg class="logo-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="48" height="48" rx="14" fill="url(#logo-grad)" />
+          <text x="50%" y="54%" dominant-baseline="central" text-anchor="middle"
+            font-size="26" font-weight="900" fill="#0b0b0f" font-family="system-ui, -apple-system, sans-serif">B</text>
+          <defs>
+            <linearGradient id="logo-grad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#f7931a" />
+              <stop offset="100%" stop-color="#f6c453" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="logo-text">
+          <span class="logo-title">Bitcoin for the Arts</span>
+          <span class="logo-sub">Artist Hub</span>
+        </span>
       </a>
-      <span class="muted status">Nostr: {$ndkStatus}</span>
+      <span class="muted status">
+        <span class="status-dot" class:connected={$ndkStatus === 'connected'}></span>
+        {$ndkStatus}
+      </span>
     </div>
 
     <nav class="nav">
@@ -45,10 +69,26 @@
         </span>
         <button class="btn" on:click={disconnectNostr}>Disconnect</button>
       {:else}
-        <button class="btn primary" on:click={() => connectNostr()}>Connect npub</button>
+        <button class="btn primary" on:click={() => connectNostr()}>Connect</button>
       {/if}
+      <button class="btn mobile-toggle" on:click={toggleMobile} aria-label="Toggle menu">
+        {mobileMenuOpen ? '✕' : '☰'}
+      </button>
     </div>
   </div>
+
+  {#if mobileMenuOpen}
+    <nav class="mobile-nav container">
+      {#each nav as item}
+        <a
+          class={`navlink ${isActive($page.url.pathname, item.href) ? 'active' : ''}`}
+          href={`${base}${item.href}`}
+          on:click={() => (mobileMenuOpen = false)}
+          >{item.icon} {item.label}</a
+        >
+      {/each}
+    </nav>
+  {/if}
 
   {#if $authError}
     <div class="container" style="margin-top: 0.6rem;">
@@ -65,7 +105,7 @@
     top: 0;
     z-index: 50;
     backdrop-filter: blur(14px);
-    background: rgba(11, 11, 15, 0.7);
+    background: rgba(11, 11, 15, 0.82);
     border-bottom: 1px solid var(--border);
   }
   .inner {
@@ -73,49 +113,84 @@
     gap: 1rem;
     align-items: center;
     justify-content: space-between;
-    padding: 0.9rem 0;
+    padding: 0.7rem 0;
   }
   .brand {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 0.75rem;
-    min-width: 180px;
+    min-width: 0;
+    flex-shrink: 0;
   }
   .logo {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    font-weight: 800;
-    letter-spacing: 0.2px;
+    gap: 0.65rem;
+    text-decoration: none;
   }
-  .mark {
-    display: inline-flex;
-    width: 28px;
-    height: 28px;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(246, 196, 83, 0.35);
-    background: linear-gradient(180deg, rgba(246, 196, 83, 0.22), rgba(246, 196, 83, 0.1));
+  .logo:hover {
+    text-decoration: none;
+    opacity: 0.92;
+  }
+  .logo-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+  .logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+    min-width: 0;
+  }
+  .logo-title {
+    font-size: 1.05rem;
+    font-weight: 900;
+    color: var(--text);
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+  }
+  .logo-sub {
+    font-size: 0.72rem;
+    font-weight: 700;
     color: var(--accent);
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
   }
   .status {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    flex-shrink: 0;
+  }
+  .status-dot.connected {
+    background: #4ade80;
+    box-shadow: 0 0 6px rgba(74,222,128,0.5);
   }
   .nav {
     display: none;
-    gap: 0.4rem;
+    gap: 0.25rem;
     align-items: center;
     justify-content: center;
     flex: 1;
   }
   .navlink {
-    padding: 0.55rem 0.7rem;
+    padding: 0.5rem 0.65rem;
     border-radius: 10px;
     border: 1px solid transparent;
     color: var(--muted);
     font-weight: 650;
-    font-size: 0.92rem;
+    font-size: 0.88rem;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
   }
   .navlink:hover {
     text-decoration: none;
@@ -123,25 +198,54 @@
     color: var(--text);
   }
   .navlink.active {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--border);
-    color: var(--text);
+    background: rgba(246, 196, 83, 0.1);
+    border-color: rgba(246, 196, 83, 0.25);
+    color: var(--accent);
   }
   .auth {
     display: flex;
     gap: 0.5rem;
     align-items: center;
     justify-content: flex-end;
-    min-width: 210px;
+    flex-shrink: 0;
   }
   .mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
       'Courier New', monospace;
     font-size: 0.84rem;
   }
-  @media (min-width: 900px) {
+  .mobile-toggle {
+    display: flex;
+    font-size: 1.15rem;
+    padding: 0.4rem 0.55rem;
+  }
+  .mobile-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding-bottom: 0.75rem;
+  }
+  @media (min-width: 960px) {
     .nav {
       display: flex;
+    }
+    .mobile-toggle {
+      display: none;
+    }
+    .mobile-nav {
+      display: none;
+    }
+  }
+  @media (max-width: 600px) {
+    .logo-title {
+      font-size: 0.92rem;
+    }
+    .logo-icon {
+      width: 38px;
+      height: 38px;
+    }
+    .mono {
+      display: none;
     }
   }
 </style>

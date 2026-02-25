@@ -7,7 +7,9 @@
   --border: rgba(255, 255, 255, 0.12);
   --accent: #f6c453;
   --accent-2: #8b5cf6;
+  --accent-orange: #f7931a;
   --danger: #fb7185;
+  --success: #4ade80;
   color-scheme: dark;
 }
 
@@ -33,11 +35,13 @@ body {
     'Apple Color Emoji',
     'Segoe UI Emoji';
   background:
-    radial-gradient(1200px 700px at 20% 10%, rgba(139, 92, 246, 0.16), transparent 60%),
-    radial-gradient(900px 600px at 80% 20%, rgba(246, 196, 83, 0.14), transparent 55%),
-    radial-gradient(800px 500px at 50% 100%, rgba(56, 189, 248, 0.1), transparent 60%),
+    radial-gradient(1200px 700px at 20% 10%, rgba(139, 92, 246, 0.12), transparent 60%),
+    radial-gradient(900px 600px at 80% 20%, rgba(247, 147, 26, 0.1), transparent 55%),
+    radial-gradient(800px 500px at 50% 100%, rgba(56, 189, 248, 0.08), transparent 60%),
     var(--bg);
   color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -56,7 +60,7 @@ pre {
 }
 
 .container {
-  width: min(1100px, calc(100% - 2rem));
+  width: min(1140px, calc(100% - 2rem));
   margin: 0 auto;
 }
 
@@ -75,14 +79,20 @@ pre {
   border-radius: 12px;
   padding: 0.6rem 0.9rem;
   font-weight: 650;
+  font-size: 0.92rem;
   border: 1px solid var(--border);
   background: var(--panel);
   color: var(--text);
   cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
 }
 
 .btn:hover {
   background: var(--panel-2);
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 .btn.primary {
@@ -90,9 +100,19 @@ pre {
   background: linear-gradient(180deg, rgba(246, 196, 83, 0.22), rgba(246, 196, 83, 0.12));
 }
 
+.btn.primary:hover {
+  border-color: rgba(246, 196, 83, 0.5);
+  background: linear-gradient(180deg, rgba(246, 196, 83, 0.3), rgba(246, 196, 83, 0.16));
+}
+
 .btn.danger {
   border-color: rgba(251, 113, 133, 0.35);
   background: linear-gradient(180deg, rgba(251, 113, 133, 0.18), rgba(251, 113, 133, 0.09));
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .input,
@@ -105,6 +125,14 @@ pre {
   color: var(--text);
   padding: 0.65rem 0.75rem;
   outline: none;
+  font-size: 0.92rem;
+  transition: border-color 0.15s;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-color: rgba(246, 196, 83, 0.4);
 }
 
 .textarea {
@@ -139,5 +167,28 @@ pre {
   border: 1px solid var(--border);
   background: rgba(255, 255, 255, 0.05);
   font-size: 0.85rem;
+}
+
+::selection {
+  background: rgba(246, 196, 83, 0.3);
+  color: var(--text);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
 }
 
