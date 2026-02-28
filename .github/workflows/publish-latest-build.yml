@@ -1,0 +1,43 @@
+name: Publish latest Artist Hub build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-latest-build
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Create build zip
+        run: |
+          cd build
+          zip -r ../artist-hub-build.zip .
+          cd ..
+
+      - name: Publish/Update "artist-hub-latest" release asset
+        uses: ncipollo/release-action@v1
+        with:
+          tag: artist-hub-latest
+          name: Artist Hub (latest)
+          allowUpdates: true
+          replacesArtifacts: true
+          artifacts: artist-hub-build.zip
+          makeLatest: true
